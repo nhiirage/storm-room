@@ -1,7 +1,14 @@
-from webapp2 import WSGIApplication, Route
-from handlers import home_handler
+from webapp2 import WSGIApplication
+from webapp2_extras.routes import RedirectRoute
+from handlers import static_handler
+import ah_settings
+
 
 app = WSGIApplication(
-    Route(r'/', handler=home_handler.HomeHandler, name='home'),
+    [
+        RedirectRoute(r'/', handler=static_handler.StaticHandler, name='static', strict_slash=True),
+        RedirectRoute(r'/<page>/', handler=static_handler.StaticHandler, name='static', strict_slash=True),
+    ],
+    debug = ah_settings.debug
 )
 
